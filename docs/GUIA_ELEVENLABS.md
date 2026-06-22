@@ -1,112 +1,115 @@
-# Guía de integración ElevenLabs — Quriuos
+# ElevenLabs integration guide — Quriuos
 
-Esta guía explica cómo crear los **agentes conversacionales** en ElevenLabs y
-conectarlos con la app. La app ya está integrada con el SDK `@elevenlabs/react`
-(`useConversation`): el visualizador reacciona a la voz real, la transcripción
-sale de eventos reales y los controles mute/terminar funcionan de verdad.
+This guide explains how to create the **conversational agents** in ElevenLabs
+and connect them to the app. The app is already integrated with the
+`@elevenlabs/react` SDK (`useConversation`): the visualizer reacts to real
+voice audio, the transcript comes from real events, and the mute/end controls
+actually work.
 
-> **Tú ya tienes las VOCES clonadas.** Lo que falta es crear un **Agente** por
-> cada personalidad, asignarle su voz y su prompt, y copiar su `agent-id` a
-> `.env.local`. Los prompts listos para pegar están en la carpeta `agentes/`.
-
----
-
-## 1. Crear cada agente (paso a paso)
-
-Para cada uno de los **9 agentes** (Coach, Orientador y 7 personajes):
-
-1. Dashboard de ElevenLabs → **Conversational AI → Agents → + New agent** (empieza en blanco).
-2. **System prompt**: pega el contenido de la sección *System prompt* del archivo
-   correspondiente en `agentes/` (p.ej. `agentes/hawking.md`).
-3. **First message**: pega la sección *First message* del mismo archivo.
-4. **Voice**: selecciona el **clon de voz** que ya tienes para ese personaje.
-5. **Language**: Español (o "auto").
-6. **LLM**: un modelo rápido para voz (p.ej. GPT-4o mini o Gemini Flash).
-7. **Guarda** y copia el **Agent ID** (aparece en la cabecera del agente,
-   formato `agent_xxxxxxxxxxxxxxxxxxxx`).
+> **You already have the cloned VOICES.** What's left is to create one
+> **Agent** per personality, assign its voice and prompt, and copy its
+> `agent-id` into `.env.local`. Ready-to-paste prompts live in the `agentes/`
+> folder.
 
 ---
 
-## 2. Acceso público (importante para que funcione sin backend)
+## 1. Create each agent (step by step)
 
-La app conecta desde el navegador usando solo el `agent-id`. Para que esto
-funcione **sin** montar un servidor de tokens:
+For each of the **9 agents** (Coach, Advisor, and 7 characters):
 
-- En cada agente → **Security / Advanced** → activa el acceso
-  **público / no autenticado** ("Enable authentication" = **OFF**, o
+1. ElevenLabs dashboard → **Conversational AI → Agents → + New agent** (start blank).
+2. **System prompt**: paste the contents of the *System prompt* section from
+   the matching file in `agentes/` (e.g. `agentes/hawking.md`).
+3. **First message**: paste the *First message* section from the same file.
+4. **Voice**: select the **voice clone** you already have for that character.
+5. **Language**: Spanish (or "auto") — the app's conversations are in Spanish.
+6. **LLM**: a fast model for voice (e.g. GPT-4o mini or Gemini Flash).
+7. **Save** and copy the **Agent ID** (shown in the agent's header, format
+   `agent_xxxxxxxxxxxxxxxxxxxx`).
+
+---
+
+## 2. Public access (important for it to work without a backend)
+
+The app connects from the browser using only the `agent-id`. For this to work
+**without** standing up a token server:
+
+- In each agent → **Security / Advanced** → enable
+  **public / unauthenticated** access ("Enable authentication" = **OFF**, or
   "Allow public access").
-- Si hay **allowlist de dominios**, añade `http://localhost:3000` (desarrollo) y
-  tu dominio de despliegue.
+- If there's a **domain allowlist**, add `http://localhost:3000` (development)
+  and your deployment domain.
 
-> Si prefieres mantener los agentes **privados**, hay que generar un
-> *conversation token* / *signed URL* en un backend con tu API key y pasarlo a
-> `startSession({ conversationToken })`. Para el hackathon, **público es más rápido**.
+> If you'd rather keep the agents **private**, you need to generate a
+> *conversation token* / *signed URL* on a backend using your API key and pass
+> it to `startSession({ conversationToken })`. For the hackathon, **public was
+> faster**.
 
 ---
 
-## 3. Conectar los agent-id con la app
+## 3. Wiring the agent IDs into the app
 
-1. Copia el archivo de ejemplo:
+1. Copy the example file:
    ```bash
    cd quriuos
    cp .env.local.example .env.local
    ```
-2. Pega cada `agent-id` en su variable:
+2. Paste each `agent-id` into its variable:
 
-   | Agente | Variable en `.env.local` | Voz a asignar | Prompt |
+   | Agent | Variable in `.env.local` | Voice to assign | Prompt |
    |---|---|---|---|
-   | Coach personal | `NEXT_PUBLIC_EL_COACH_AGENT_ID` | voz cálida/motivadora | `agentes/coach.md` |
-   | Orientador vocacional | `NEXT_PUBLIC_EL_VOCATIONAL_AGENT_ID` | voz serena/confiable | `agentes/orientador.md` |
-   | Stephen Hawking | `NEXT_PUBLIC_EL_HAWKING_AGENT_ID` | clon Hawking | `agentes/hawking.md` |
-   | Steve Jobs | `NEXT_PUBLIC_EL_JOBS_AGENT_ID` | clon Jobs | `agentes/jobs.md` |
-   | Elon Musk | `NEXT_PUBLIC_EL_MUSK_AGENT_ID` | clon Musk | `agentes/musk.md` |
-   | Cristiano Ronaldo | `NEXT_PUBLIC_EL_CR7_AGENT_ID` | clon CR7 | `agentes/cr7.md` |
-   | Lionel Messi | `NEXT_PUBLIC_EL_MESSI_AGENT_ID` | clon Messi | `agentes/messi.md` |
-   | Taylor Swift | `NEXT_PUBLIC_EL_TAYLOR_AGENT_ID` | clon Taylor | `agentes/taylor.md` |
-   | Ibai Llanos | `NEXT_PUBLIC_EL_IBAI_AGENT_ID` | clon Ibai | `agentes/ibai.md` |
+   | Personal coach | `NEXT_PUBLIC_EL_COACH_AGENT_ID` | warm/motivating voice | `agentes/coach.md` |
+   | Vocational advisor | `NEXT_PUBLIC_EL_VOCATIONAL_AGENT_ID` | calm/trustworthy voice | `agentes/orientador.md` |
+   | Stephen Hawking | `NEXT_PUBLIC_EL_HAWKING_AGENT_ID` | Hawking clone | `agentes/hawking.md` |
+   | Steve Jobs | `NEXT_PUBLIC_EL_JOBS_AGENT_ID` | Jobs clone | `agentes/jobs.md` |
+   | Elon Musk | `NEXT_PUBLIC_EL_MUSK_AGENT_ID` | Musk clone | `agentes/musk.md` |
+   | Cristiano Ronaldo | `NEXT_PUBLIC_EL_CR7_AGENT_ID` | CR7 clone | `agentes/cr7.md` |
+   | Lionel Messi | `NEXT_PUBLIC_EL_MESSI_AGENT_ID` | Messi clone | `agentes/messi.md` |
+   | Taylor Swift | `NEXT_PUBLIC_EL_TAYLOR_AGENT_ID` | Taylor clone | `agentes/taylor.md` |
+   | Ibai Llanos | `NEXT_PUBLIC_EL_IBAI_AGENT_ID` | Ibai clone | `agentes/ibai.md` |
 
-3. **Reinicia** el servidor (las variables `NEXT_PUBLIC_` se leen al arrancar):
+3. **Restart** the dev server (`NEXT_PUBLIC_` variables are read at startup):
    ```bash
    npm run dev
    ```
 
 ---
 
-## 4. Variables dinámicas (contexto del estudiante)
+## 4. Dynamic variables (student context)
 
-La app envía contexto en cada sesión vía `dynamicVariables`. Los prompts ya las
-usan con la sintaxis `{{variable}}` — ElevenLabs las detecta automáticamente, no
-hay que configurarlas aparte.
+The app sends context on every session via `dynamicVariables`. The prompts
+already use them with `{{variable}}` syntax — ElevenLabs picks them up
+automatically, no extra configuration needed.
 
-| Variable | Dónde se usa | Contenido |
+| Variable | Used in | Content |
 |---|---|---|
-| `{{student_name}}` | todos | nombre del estudiante |
-| `{{interests}}` | todos | lista de intereses detectados |
-| `{{character}}` | personajes | nombre del personaje activo |
-| `{{characters_talked}}` | orientador | referentes con los que ya habló |
-| `{{suggested_areas}}` | orientador | áreas de carrera sugeridas por la app |
+| `{{student_name}}` | all | the student's name |
+| `{{interests}}` | all | list of detected interests |
+| `{{character}}` | characters | name of the active character |
+| `{{characters_talked}}` | advisor | role models the student has already talked to |
+| `{{suggested_areas}}` | advisor | career areas suggested by the app |
 
-> Si una variable no existe en el prompt de tu agente, ElevenLabs simplemente la
-> ignora. Puedes referenciar solo las que quieras.
-
----
-
-## 5. Presupuesto de créditos (~130k)
-
-- Conversational AI consume créditos **por minuto** de conversación.
-- **Prueba primero en modo texto** dentro del dashboard (no gasta voz) para
-  afinar cada prompt.
-- Reparte ~30k por dev para desarrollo y **deja ~40k de reserva para la demo**.
-- Corta la sesión (`Terminar sesión`) al acabar cada prueba; no la dejes abierta.
+> If a variable doesn't exist in your agent's prompt, ElevenLabs simply
+> ignores it. You can reference only the ones you need.
 
 ---
 
-## 6. Comprobación rápida
+## 5. Credit budget (~130k)
 
-1. Con al menos el agente **Coach** configurado, abre `/coach`.
-2. Pulsa **Empezar a hablar** → acepta el permiso de micrófono.
-3. Deberías ver "Conectando…" → "Escuchando…/Hablando…", el visualizador
-   moviéndose con la voz real y la transcripción apareciendo.
-4. Si ves el aviso *"Falta el agent-id"*, revisa `.env.local` y reinicia.
-5. Si falla la conexión, revisa que el agente sea **público** y que el dominio
-   esté en la allowlist.
+- Conversational AI consumes credits **per minute** of conversation.
+- **Test in text mode first** inside the dashboard (uses no voice credits) to
+  tune each prompt.
+- Split ~30k per dev for development and **keep ~40k in reserve for the demo**.
+- End the session (`End session`) after each test; don't leave it open.
+
+---
+
+## 6. Quick check
+
+1. With at least the **Coach** agent configured, open the app at `/`.
+2. Tap **Start talking** → grant the microphone permission.
+3. You should see "Connecting…" → "Listening…/Speaking…", the visualizer
+   moving with the real voice, and the transcript appearing.
+4. If you see the *"Missing agent-id"* warning, check `.env.local` and restart.
+5. If the connection fails, confirm the agent is **public** and the domain is
+   on the allowlist.

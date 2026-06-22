@@ -1,34 +1,34 @@
 # Quriuos
 
-> Plataforma de voz con IA que ayuda a adolescentes a descubrir sus intereses, conversar con referentes inspiradores y encontrar su camino académico y profesional.
+> A voice-AI platform that helps teenagers discover their interests, talk with inspiring role models, and find their academic and professional path.
 
-Proyecto desarrollado en un hackathon organizado por **ElevenLabs**, en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y [Fernando S. Cardo](https://www.ferscardo.com/).
-
----
-
-## Qué es Quriuos
-
-Quriuos es **una sola conversación de voz continua**, sin menús ni pestañas: el estudiante habla con "Quriuos", un agente orquestador que detecta sus intereses y transfiere automáticamente la charla, según el tema, a uno de varios agentes especializados ([ElevenLabs Conversational AI](https://elevenlabs.io/conversational-ai) + `transfer_to_agent`):
-
-1. **Descubrir** — Quriuos escucha al estudiante y detecta intereses reales (deporte, ciencia, música, tecnología...) con preguntas abiertas.
-2. **Conectar** — en cuanto detecta un interés claro, transfiere la conversación a un referente inspirado en una figura real (Hawking, Jobs, Musk, CR7, Messi, Taylor Swift, Ibai) clonado con voz de ElevenLabs.
-3. **Orientar** — con suficiente contexto acumulado, transfiere al orientador vocacional, que sugiere carreras y áreas académicas a partir de todo el perfil.
-
-Cada interés y cada chat se guardan en un perfil evolutivo (`localStorage`) con memoria persistente entre sesiones, visible en el drawer "Mi futuro". En lugar de leer sobre un referente, el estudiante *habla* con una representación de él; en lugar de rellenar un test vocacional, su perfil evoluciona de forma natural a partir de cada conversación.
+Built during a hackathon organized by **ElevenLabs**, together with [Mateo Sinelnik](https://github.com/Ramputink) and [Fernando S. Cardo](https://www.ferscardo.com/).
 
 ---
 
-## Stack tecnológico
+## What is Quriuos
+
+Quriuos is **one continuous voice conversation** — no menus, no tabs. The student talks to "Quriuos," an orchestrator agent that detects their interests and automatically transfers the conversation, based on topic, to one of several specialized agents ([ElevenLabs Conversational AI](https://elevenlabs.io/conversational-ai) + `transfer_to_agent`):
+
+1. **Discover** — Quriuos listens to the student and detects real interests (sports, science, music, technology...) through open-ended questions.
+2. **Connect** — once a clear interest is detected, it transfers the conversation to a character inspired by a real figure (Hawking, Jobs, Musk, CR7, Messi, Taylor Swift, Ibai), voice-cloned via ElevenLabs.
+3. **Guide** — once enough context has been gathered, it transfers to the vocational advisor, who suggests careers and academic areas based on the full profile.
+
+Every interest and chat is saved to an evolving profile (`localStorage`) with memory that persists across sessions, visible in the "My future" drawer. Instead of reading about a role model, the student *talks* to a representation of them; instead of filling out a vocational test, their profile evolves naturally from each conversation.
+
+---
+
+## Tech stack
 
 - **Next.js 16** (App Router) — framework
-- **TypeScript** — tipado
-- **Tailwind CSS v3** — estilos con design tokens propios
-- **ElevenLabs Conversational AI** — agentes de voz en tiempo real (`@elevenlabs/react`)
-- **localStorage** — perfil del estudiante persistido en el dispositivo, sin servidor
+- **TypeScript** — typing
+- **Tailwind CSS v3** — styling with custom design tokens
+- **ElevenLabs Conversational AI** — real-time voice agents (`@elevenlabs/react`)
+- **localStorage** — student profile persisted on-device, no server
 
 ---
 
-## Empezar en local
+## Getting started locally
 
 ```bash
 git clone https://github.com/AlvaroMartinRuiz/quriuos.git
@@ -37,50 +37,40 @@ cd quriuos
 npm install
 
 cp .env.local.example .env.local
-# Edita .env.local con tu API key y agent-ids de ElevenLabs
+# Edit .env.local with your ElevenLabs API key and agent IDs
 
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) en el navegador.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Configurar los agentes de ElevenLabs
+### Setting up the ElevenLabs agents
 
-Cada bloque/personaje necesita su propio agente conversacional creado en el [dashboard de ElevenLabs](https://elevenlabs.io/app/conversational-ai/agents). Los pasos detallados están en [docs/GUIA_ELEVENLABS.md](docs/GUIA_ELEVENLABS.md); también puedes automatizar la creación con:
+Each block/character needs its own conversational agent created in the [ElevenLabs dashboard](https://elevenlabs.io/app/conversational-ai/agents). Detailed steps are in [docs/GUIA_ELEVENLABS.md](docs/GUIA_ELEVENLABS.md); you can also automate creation with:
 
 ```bash
 node scripts/create-agents.mjs
 ```
 
-> La API key de ElevenLabs nunca debe ir al repo: solo vive en tu `.env.local`, que está en `.gitignore`.
+> The ElevenLabs API key must never go into the repo: it only lives in your `.env.local`, which is in `.gitignore`.
 
 ---
 
-## Estructura del proyecto
+## Project structure
 
 ```
 app/
-  page.tsx            # Pantalla única: chat con Quriuos + drawer "Mi futuro"
-  api/elevenlabs-token/  # Endpoint server-side para tokens de conversación
-components/           # VoiceSession (widget de voz), ProfileSummary, ParticleField...
-lib/                  # profile.ts (contrato StudentProfile), characters.ts, careers.ts, elevenlabs.ts
-agentes/              # Prompts de sistema de cada agente (orquestador, personajes, orientador)
-scripts/              # Automatización de creación/configuración de agentes en ElevenLabs
-docs/                 # Documentación del proyecto (ver abajo)
+  page.tsx            # Single screen: chat with Quriuos + "My future" drawer
+  api/elevenlabs-token/  # Server-side endpoint for conversation tokens
+components/           # VoiceSession (voice widget), ProfileSummary, ParticleField...
+lib/                  # profile.ts (StudentProfile contract), characters.ts, careers.ts, elevenlabs.ts
+agentes/              # System prompts for each agent (orchestrator, characters, advisor)
+scripts/              # Automation for creating/configuring agents in ElevenLabs
+docs/                 # Project documentation
 ```
 
 ---
 
-## Documentación adicional
+## Credits
 
-- [docs/PROYECTO.md](docs/PROYECTO.md) — visión y propuesta de valor completa
-- [docs/PRD.md](docs/PRD.md) — documento de requisitos de producto
-- [docs/TEAM_PLAN.md](docs/TEAM_PLAN.md) — plan de reparto de trabajo durante el hackathon
-- [docs/GUIA_ELEVENLABS.md](docs/GUIA_ELEVENLABS.md) — guía paso a paso para configurar los agentes
-- [docs/GUION_DEMO.md](docs/GUION_DEMO.md) — guion usado para la demo del hackathon
-
----
-
-## Créditos
-
-Hecho en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y [Fernando S. Cardo](https://www.ferscardo.com/) durante un hackathon de ElevenLabs.
+Built as a team with [Mateo Sinelnik](https://github.com/Ramputink) and [Fernando S. Cardo](https://www.ferscardo.com/) during an ElevenLabs hackathon.
