@@ -2,7 +2,7 @@
 
 > Plataforma de voz con IA que ayuda a adolescentes a descubrir sus intereses, conversar con referentes inspiradores y encontrar su camino académico y profesional.
 
-Proyecto desarrollado en un hackathon organizado por **ElevenLabs**, en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y Fernando. [Repo original del equipo](https://github.com/Ramputink/hackatonEvolve).
+Proyecto desarrollado en un hackathon organizado por **ElevenLabs**, en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y [Fernando S. Cardo](https://www.ferscardo.com/). [Repo original del equipo](https://github.com/Ramputink/hackatonEvolve).
 
 ---
 
@@ -83,4 +83,4 @@ docs/                 # Documentación del proyecto (ver abajo)
 
 ## Créditos
 
-Hecho en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y Fernando durante un hackathon de ElevenLabs.
+Hecho en equipo con [Mateo Sinelnik](https://github.com/Ramputink) y [Fernando S. Cardo](https://www.ferscardo.com/) durante un hackathon de ElevenLabs.
